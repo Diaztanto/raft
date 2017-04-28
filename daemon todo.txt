@@ -1,0 +1,23 @@
+daemon
+
+terima update server load
+terima result
+kirim (forward) request client ke server dengan load terendah
+
+terima request client
+kirim result ke client
+
+kirim update server load
+kirim permintaan alamat server dengan load terendah
+terima alamat server dengan load terendah
+
+
+berarti kira-kira dua thread
+
+satu nunggu request client
+begitu dapet, langsung minta alamat, nunggu lagi
+begitu dapet, langsung forward requestnya pake HTTP request, nunggu lagi
+begitu dapet, langsung dikasih ke client
+
+satu lagi nungguin update server load
+begitu dapet langsung kirim ke node leader

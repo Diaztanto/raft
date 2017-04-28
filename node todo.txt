@@ -1,0 +1,8 @@
+node
+
+terima input
+terusin request ke server
+terima result dari server
+terima update server load dari daemon
+
+konsensus
