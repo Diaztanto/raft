@@ -145,8 +145,7 @@ void* server_update(void* undecided) {
 			exit (-1);
 		}
 
-		printf("Received %" CURL_FORMAT_CURL_OFF_T " bytes.\n",
-		(curl_off_t)nread);
+	//	printf("Received %" CURL_FORMAT_CURL_OFF_T " bytes.\n",(curl_off_t)nread);
 	}	
 
 	curl_easy_cleanup(upd_curl);
