@@ -21,7 +21,6 @@
 */
 
 typedef struct {
-	int* has_read;
 	int msg;
 } message;
 
@@ -35,7 +34,9 @@ typedef struct {
 } node;
 
 int node_count;
-message msg_pool;
+message** msg_pool;
+// msg_pool[sender][reciever]
+
 
 void init_node(node* n, int idx);
 
@@ -58,6 +59,8 @@ int main (int argc, char* argv[]) {
 	node_count = 5;
 	init_nodes(nodes, node_count);
 
+	msg_pool = (message**) malloc(node_count*sizeof(message*));
+
 	for (i = 0; i < node_count; i++) {
 		printf("%d", i);
 		init_node(nodes[i], i);
@@ -66,6 +69,8 @@ int main (int argc, char* argv[]) {
 			printf("Error\n");
 			exit(-1);
 		}
+
+		msg_pool[i] = (message*) malloc(node_count*sizeof(message));
 	}
 
 	for (i = 0; i < node_count; i++) {
@@ -113,6 +118,8 @@ void* node_main(void* n) {
 	clock_t time_elapsed, start, end;
 	int timer;
 	int has_recv_vote_req = 0;
+	int candidate = -1;
+	int leader = -1;
 	int id;
 
 	id = ((node*)n)->id;
@@ -128,6 +135,16 @@ void* node_main(void* n) {
 		//receive vote request / heartbeat
 		printf("%d\n", time_elapsed);
 		end = clock();
+		int i=0;
+		while (i<node_count &&  has_recv_vote_req == 0) {
+			if (msg_pool[i][((node*)n)->id] != -1) {
+				has_recv_vote_req = 1;
+				candidate = i;
+				msg_pool[i][((node*)n)->id] = -1;
+			} else {
+				i++;
+			}
+		}
 	}
 
 
@@ -135,18 +152,24 @@ void* node_main(void* n) {
 		((node*)n)->flag = CANDIDATE;
 	} else {
 		//vote
+		msg_pool[((node*)n)->id][candidate]->msg = ((node*)n)->id;
 		//set has vote to 1
+		has_recv_vote_req = 1;
 	}
 
 	printf("I'm node %d, I'm a %d\n", ((node*)n)->id, ((node*)n)->flag);
 
-/*
+
 	if (node->flag == CANDIDATE) {
 		//start election
 		//send vote request
+		for (int i=0;i<node_count;i++) {
+			msg_pool[((node*)n)->id][i]->msg = ((node*)n)->id;
+		}
 		//receive vote
+		
 	}
-*/
+
 
 //heartbeat
 }
