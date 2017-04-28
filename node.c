@@ -64,6 +64,7 @@ int main (int argc, char* argv[]) {
 	for (i = 0; i < node_count; i++) {
 		printf("%d", i);
 		init_node(nodes[i], i);
+		
 		node_stat[i] = pthread_create(&node_thread[i], NULL, node_main, (void*) nodes[i]);
 		if (node_stat[i]) {
 			printf("Error\n");
