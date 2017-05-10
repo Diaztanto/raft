@@ -1,0 +1,48 @@
+prosedur main
+init segalanya
+mulai loop
+	cek role
+	tunggu timer abis, meanwhile look for vote requests or server update request
+
+	keluar timer, ganti jadi kandidat; new timer
+	vote for self, send vote request and reset timer bwt tunggu vote
+	tunggu dapet vote semuanya atau habis timer dan itung
+	if vote > 50%, become leader
+	else become candidate again or (read prosedur respon_masuk)
+
+	keluar timer, antara jadi follower atau leader. this one loop is for leader
+	new timer, tunggu for server update from daemon
+	keluar timer, ganti role jadi kandidat or (read prosedur respon_masuk)
+keluar loop (dapet kys request)
+delete everything
+peace
+
+
+
+prosedur respon_masuk
+if request is kys request
+	status = 1
+	response = farewell
+else if request is vote request (9/x)
+	if has not voted
+		response = x
+	else
+		response = whatever we vote before
+else if request is update server load (3/x/y)
+	update server x with load y
+	response = success
+else if request is prime number request (4/x)
+	send curl request to lowest loaded server for xth prime number
+	response = what the server responded
+else if request is append entry
+	become follower and break off any candidate loop
+	response = yes sir
+else if leader and request is update server load (format blm ada)
+	send curl multi ke semua follower
+	check if majority selesai update
+	send curl multi commit update
+	check if majority done commit
+	response = update commited
+
+send response
+
