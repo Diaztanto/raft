@@ -1,8 +1,19 @@
 node
 
-terima input
-terusin request ke server
-terima result dari server
-terima update server load dari daemon
+terima input (vote req/update serv load/ask prime number/ask to kys)
 
-konsensus
+terusin request prime number ke server dgn lowest load
+
+konsensus (election, voting, vote count)
+
+timer check
+timeout check
+election not complete
+voting not complete
+node mati, tunggu zero
+voting lagi ampe 3x zero
+node ttp mati, jadiin leader zero
+serv update not complete
+prime request, ask lowest load zero
+send request to lowest load zero
+display results zero

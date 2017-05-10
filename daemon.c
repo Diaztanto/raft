@@ -5,6 +5,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <curl/curl.h>
+#include <microhttpd.h>
 
 #define server_timeout 5000
 
